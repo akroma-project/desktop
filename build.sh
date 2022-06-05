@@ -1,1 +1,0 @@
-cd ui && npm run build && cd .. && dotnet run
