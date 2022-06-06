@@ -15,6 +15,17 @@
 </template>
 
 <script lang="ts" setup>
+import { defineProps, inject } from "vue";
+defineProps<{ msg: string }>();
+
+let globalVar = inject("globalVariable");
+console.log("HelloPhotino.vue: globalVar = ", globalVar);
+
+const callDotNet = (message: string) => {
+  // window.external.sendMessage(message);
+  // window.external.sendMessage(`{"Command":"testMsg","Data":"Hi .NET! 🤖"}`);
+};
+
 // Declare the necessary interface for messaging functions
 // in the PhotinoWindow application.
 // declare global {
@@ -45,12 +56,4 @@
 // } else {
 //     window.external.receiveMessage((message: string) => alert(message));
 // }
-
-import { defineProps } from "vue";
-defineProps<{ msg: string }>();
-
-const callDotNet = (message: string) => {
-  // window.external.sendMessage(message);
-  // window.external.sendMessage(`{"Command":"testMsg","Data":"Hi .NET! 🤖"}`);
-};
 </script>

@@ -7,9 +7,10 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import router from "./router";
 
-createApp(App)
-  .use(store)
-  .use(VueAxios, axios)
-  .use(router)
-  .use(ElementPlus)
-  .mount("#app");
+const app = createApp(App);
+app.provide("globalVariable", 123);
+app.use(store);
+app.use(VueAxios, axios);
+app.use(router);
+app.use(ElementPlus);
+app.mount("#app");

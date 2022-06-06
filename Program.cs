@@ -13,13 +13,13 @@ namespace HelloPhotinoReact
         static void Main(string[] args)
         {
             // Window title declared here for visibility
-            string windowTitle = "Photino.Vue Demo App";
+            string windowTitle = "Akroma Desktop";
 
             // Creating a new PhotinoWindow instance with the fluent API
             var window = new PhotinoWindow()
                 .SetTitle(windowTitle)
                 // Resize to a percentage of the main monitor work area
-                //.Resize(50, 50, "%")
+                .SetSize(800, 600)
                 // Center window in the middle of the screen
                 .Center()
                 // Users can resize windows by default.
