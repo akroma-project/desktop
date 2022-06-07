@@ -8,52 +8,20 @@
       to the UI.
     </p>
 
-    <button class="primary center" v-on:click="callDotNet(`Hello .NET! 🤖`)">
-      Call .NET
-    </button>
+    <button class="primary center" v-on:click="callDotNet()">Call .NET</button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, inject } from "vue";
+import { defineProps } from "vue";
+import { sendMessage } from "@/remoting";
 defineProps<{ msg: string }>();
 
-let globalVar = inject("globalVariable");
-console.log("HelloPhotino.vue: globalVar = ", globalVar);
-
-const callDotNet = (message: string) => {
-  // window.external.sendMessage(message);
-  // window.external.sendMessage(`{"Command":"testMsg","Data":"Hi .NET! 🤖"}`);
+const callDotNet = () => {
+  sendMessage(`{"Command":"testMsg","Data":"Hi .NET! 🤖"}`);
 };
 
-// Declare the necessary interface for messaging functions
-// in the PhotinoWindow application.
-// declare global {
-//     interface External {
-//         sendMessage: (message: string) => void;
-//         receiveMessage: (delegate: (message: string) => void) => void;
-//     }
-
-//     interface Window { External: object; }
-// }
-
-// // Make sure that sendMessage and receiveMessage exist
-// // when the frontend is started without the Photino context.
-// // I.e. using Vue's `npm run serve` command and hot reload.
-// if (typeof(window.external.sendMessage) !== 'function') {
-//     window.external.sendMessage = (message: string) =>
-//         console.log('Emulating sendMessage.\nMessage sent: ' + message);
-// }
-
-// if (typeof(window.external.receiveMessage) !== 'function') {
-//     window.external.receiveMessage = (delegate: (message: string) => void) => {
-//         const message = 'Simulating message from backend.';
-//         delegate(message);
-//     };
-
-//     window.external.receiveMessage((message: string) =>
-//         console.log('Emulating receiveMessage.\nMessage received: ' + message));
-// } else {
-//     window.external.receiveMessage((message: string) => alert(message));
-// }
+// receiveMessage((msg: string) => {
+//   console.log(`Received message: ${msg}`);
+// });
 </script>

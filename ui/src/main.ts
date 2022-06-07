@@ -6,9 +6,11 @@ import "element-plus/dist/index.css";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import router from "./router";
+import { sendMessage } from "./remoting";
 
 const app = createApp(App);
-app.provide("globalVariable", 123);
+app.provide("sendMessage", sendMessage);
+
 app.use(store);
 app.use(VueAxios, axios);
 app.use(router);

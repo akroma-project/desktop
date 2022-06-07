@@ -6,3 +6,7 @@ build:
 .PHONY: run
 run: build
 	dotnet run	
+
+.PHONY: start
+start: 
+	dotnet run	
