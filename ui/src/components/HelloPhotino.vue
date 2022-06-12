@@ -18,7 +18,15 @@ import { sendMessage } from "@/remoting";
 defineProps<{ msg: string }>();
 
 const callDotNet = () => {
-  sendMessage(`{"Command":"testMsg","Data":"Hi .NET! 🤖"}`);
+  const data = JSON.stringify({
+    Command: "Api.Commands.CreateWalletCommand",
+    Data: {
+      Name: "My Wallet",
+      Password: "My Password",
+      Path: "My Path",
+    },
+  });
+  sendMessage(data);
 };
 
 // receiveMessage((msg: string) => {

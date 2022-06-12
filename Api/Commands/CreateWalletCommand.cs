@@ -25,7 +25,7 @@ namespace Api.Commands
             await Task.FromResult(0);
             return new CreateWalletResponse
             {
-                WalletName = request.Name,
+                WalletName = "Created Wallet",
                 WalletPassword = request.Password,
                 WalletPath = request.Path
             };

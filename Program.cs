@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using MediatR.Pipeline;
 using Api.Commands;
+using System.Linq;
 
 namespace HelloPhotinoReact
 {
@@ -36,17 +37,24 @@ namespace HelloPhotinoReact
                     var window = (PhotinoWindow)sender;
                     var windowMessage = JsonSerializer.Deserialize<WindowMessage>(message);
 
-                    var commandResponse = await mediator.Send(new CreateWalletCommand());
-                    var s = JsonSerializer.Serialize(commandResponse);
-                    Console.WriteLine($"Processed Command: {s}");
-                    
-                    // The message argument is coming in from sendMessage.
-                    // "window.external.sendMessage(message: string)"
-                    string response = $"Received message: \"{message}\"";
+                    var match = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
+                    from type in assembly.GetTypes()
+                    where type.FullName == windowMessage.Command
+                    select type).FirstOrDefault();
 
-                    // Send a message back the to JavaScript event handler.
-                    // "window.external.receiveMessage(callback: Function)"
-                    window.SendWebMessage(response);
+                    if (match == null) {
+                        window.SendWebMessage("{\"error\":\"Command not found\"}");
+                        return;
+                    }
+
+                    var cmd = Activator.CreateInstance(match);
+
+                    var command = JsonSerializer.Deserialize(windowMessage.Data.ToString(), cmd.GetType());
+                    
+                    var response = await mediator.Send(command);
+                    
+                    window.SendWebMessage(JsonSerializer.Serialize(response));
+                   
                 })
                 .Load("build/index.html"); // Can be used with relative path strings or "new URI()" instance to load a website.
 
