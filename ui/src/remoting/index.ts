@@ -11,10 +11,16 @@ declare global {
 
 const receiveMessageInternal = window.external.receiveMessage;
 
-receiveMessageInternal((msg: string) => {
-  console.log(`Inside Remoting: ${msg}`);
-});
+if (receiveMessageInternal) {
+  receiveMessageInternal((msg: string) => {
+    console.log(`Inside Remoting: ${msg}`);
+  });
+}
 
 export const sendMessage = (message: string) => {
-  window.external.sendMessage(message);
+  if (window.external.sendMessage) {
+    window.external.sendMessage(message);
+  } else {
+    console.debug(`sendMessage is not defined: ${message}`);
+  }
 };
